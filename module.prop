@@ -1,0 +1,7 @@
+id=killgmsfont
+name=Kill GMS Font
+version=v0.1
+versionCode=1
+author=MrCarb0n
+description=Revoke GMS's pre-built fonts (such as Google Sans etc.) for Apps by Google' and others too.
+updateJson=https://raw.githubusercontent.com/MrCarb0n/killgmsfont/master/update.json
