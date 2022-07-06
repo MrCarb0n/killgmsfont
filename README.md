@@ -53,7 +53,7 @@ provided or custom installed font.
 [3]: https://play.google.com/store/apps/dev?id=5700313618786177705
 [4]: https://github.com/MrCarb0n/killgmsfont
 [5]: https://github.com/MrCarb0n/killgmsfont/releases
-[6]: https://raw.githubusercontent.com/MrCarb0n/killgmsfont/master/killgmsfont.zip
+[6]: https://raw.githubusercontent.com/MrCarb0n/killgmsfont/master/extension/killgmsfont.zip
 [7]: https://t.me/ohmyfont
 [8]: https://github.com/Zackptg5
 [9]: https://github.com/Zackptg5/MMT-Extended
