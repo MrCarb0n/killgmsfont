@@ -14,48 +14,50 @@
 # Kill GMS Font :skull:
 
 [Google Mobile Services][1] a.k.a GMS has internal [Font Api Service][2] which is provide
-fonts among [Google Apps][3] and others too. Here [KillGMSFont][4] do revoke GMS' font
-service while installation and boot time to ensure [Google Apps][3] to rely on system
-provided or custom installed font.
+fonts among [Google Apps][3] and others too. Here [KillGMSFont][4] do revoke GMS's font
+service while boot time to ensure [Google Apps][3] to rely on system provided or custom
+installed font.
 
-> Many app' user interface rely on in-built shipped custom font, they won't be effective
-> by KillGMSFont. Instead ask app developer to use [GMS' Font Provider][2] service or
-> system font.
+> *Many app's user interfaces rely on in-built shipped custom font, they won't be effective
+> by KillGMSFont. Instead ask the app developer to use [GMS's Font Provider][2] service or
+> system font.*
 
----
 ### Download
 
-> [KillGMSFont][4] have came in two different variant, 1st one is universal magisk module,
-> fitted w/o any font mod/tweak and 2nd one is as [OMF][10]' extension. Download your
-> desired variant down below.
+> *[KillGMSFont][4] have came in two different variant, 1st one is universal magisk module,
+> fitted w/o any font mod/tweak and 2nd one is as [OMF][10]'s extension. Download your
+> desired variant down below.*
 
-- [Magisk Module][5] (WIP)
+- [Magisk Module][5]
+> *just download and flash through Magisk app as regular installation.*
 - [OMF Extension][6]
-> extract zip to `OhMyFont` folder before installing OMF.
+> *extract zip to `OhMyFont` folder at internal storage before installing OMF or OFM template
+> based module.*
 
----
 ### Requirements
-- Magisk v20.4+
+- [Magisk v20.4+][7]
+- [OhMyFont v2022.07.03+][8]
+- [OMF Template v2022.07.07+][9]
 
----
 ### Credits to
-- [OMF Community][7] for inspiration
-- [Zackptg5][8] for [MMT-EXTENDED][9]
+- [OMF Community][10] for inspiration
+- [Zackptg5][11] for [MMT-EXTENDED][12]
 
----
 ### Partner projects
-- [Oh My Font!][10]
-- [Magisk Flashable Font Module][11]
+- [Oh My Font!][13]
+- [Magisk Flashable Font Module][14]
 
----
 [1]: https://www.android.com/gms
 [2]: https://developer.android.com/guide/topics/ui/look-and-feel/downloadable-fonts
 [3]: https://play.google.com/store/apps/dev?id=5700313618786177705
 [4]: https://github.com/MrCarb0n/killgmsfont
-[5]: https://github.com/MrCarb0n/killgmsfont/releases
-[6]: https://raw.githubusercontent.com/MrCarb0n/killgmsfont/master/extension/killgmsfont.zip
-[7]: https://t.me/ohmyfont
-[8]: https://github.com/Zackptg5
-[9]: https://github.com/Zackptg5/MMT-Extended
-[10]: https://gitlab.com/nongthaihoang/oh_my_font
-[11]: https://t.me/MFFMMain
+[5]: https://github.com/MrCarb0n/killgmsfont/releases/download/v1.0/KillGMSFont_v1.0.zip
+[6]: /extension/killgmsfont.zip?raw=true
+[7]: https://github.com/topjohnwu/Magisk/releases
+[8]: https://gitlab.com/nongthaihoang/oh_my_font/-/raw/master/releases/OMF.zip
+[9]: https://gitlab.com/nongthaihoang/omftemplate
+[10]: https://t.me/ohmyfont
+[11]: https://github.com/Zackptg5
+[12]: https://github.com/Zackptg5/MMT-Extended
+[13]: https://gitlab.com/nongthaihoang/oh_my_font
+[14]: https://t.me/MFFMMain

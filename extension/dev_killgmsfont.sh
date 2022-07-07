@@ -10,10 +10,10 @@
 # ╰─────────────────────────────────────────╯
 
 # print version
-ui_print '  KillGMSFont v2022.7.6'
+ui_print '  KillGMSFont v2022.7.8'
 
 IGNR_FR_NW() {
-    # disable GMS' font service
+    # disable GMS's font service
     STATE_GMSF() {
         local PM="$(which pm)"
         local GMSF="com.google.android.gms/com.google.android.gms.fonts"
@@ -24,17 +24,19 @@ IGNR_FR_NW() {
         done
     } &> /dev/null
 
-    # delete GMS' generated fonts
+    # delete GMS's generated fonts
     DEL_GMSF() {
         local GMSFD=com.google.android.gms/files/fonts
 
-        for d in /data/data /data/user/*; do
-            [ -d $d/$GMSFD ] && rm -rf $d/$GMSFD
+        for d in /data/fonts \
+            /data/data/$GMSFD \
+            /data/user/*/$GMSFD; do
+            [ -d $d ] && rm -rf $d
         done
     }
 
     # run primary tasks
-    STATE_GMSF disable && DEL_GMSF
+    STATE_GMSF disable; DEL_GMSF
 } # && IGNR_FR_NW
 
 # create service script: svc_killgmsfont.sh
@@ -57,7 +59,7 @@ IGNR_FR_NW() {
     echo '        sleep 1'
     echo '    done'
     echo ''
-    echo "    # disable GMS' font service"
+    echo "    # disable GMS's font service"
     echo '    STATE_GMSF() {'
     echo '        local PM="$(which pm)"'
     echo '        local GMSF="com.google.android.gms/com.google.android.gms.fonts"'
@@ -68,17 +70,19 @@ IGNR_FR_NW() {
     echo '        done'
     echo '    } &> /dev/null'
     echo ''
-    echo "    # delete GMS' generated fonts"
+    echo "    # delete GMS's generated fonts"
     echo '    DEL_GMSF() {'
     echo '        local GMSFD=com.google.android.gms/files/fonts'
     echo ''
-    echo '        for d in /data/data /data/user/*; do'
-    echo '            [ -d $D/$GMSFD ] && rm -rf $d/$GMSFD'
+    echo '        for d in /data/fonts \'
+    echo '            /data/data/$GMSFD \'
+    echo '            /data/user/*/$GMSFD; do'
+    echo '            [ -d $d ] && rm -rf $d'
     echo '        done'
     echo '    }'
     echo ''
     echo '    # run primary tasks'
-    echo '    STATE_GMSF disable && DEL_GMSF'
+    echo '    STATE_GMSF disable; DEL_GMSF'
     echo ')'
 } > $OMFDIR/service.d/svc_killgmsfont.sh
 
@@ -102,7 +106,7 @@ IGNR_FR_NW() {
     echo '        sleep 1'
     echo '    done'
     echo ''
-    echo "    # enable GMS' font service"
+    echo "    # enable GMS's font service"
     echo '    STATE_GMSF() {'
     echo '        local PM="$(which pm)"'
     echo '        local GMSF="com.google.android.gms/com.google.android.gms.fonts"'

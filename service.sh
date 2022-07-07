@@ -1,6 +1,6 @@
 #!/system/bin/sh
 
-(   
+(
     # ╭─────────────────────────────────────────╮
     # │    Kill GMS Font Module. | @MrCarb0n    │
     # ├─────────────────────────────────────────┤
@@ -19,7 +19,7 @@
 
     # disable GMS' font service
     STATE_GMSF() {
-        local $PM="$(which pm)"
+        local PM="$(which pm)"
         local GMSF="com.google.android.gms/com.google.android.gms.fonts"
 
         for s in $(ls /data/user); do
@@ -32,11 +32,13 @@
     DEL_GMSF() {
         local GMSFD=com.google.android.gms/files/fonts
 
-        for d in /data/data /data/user/*; do
-            [ -d $D/$GMSFD ] && rm -rf $d/$GMSFD
+        for d in /data/fonts \
+            /data/data/$GMSFD \
+            /data/user/*/$GMSFD; do
+            [ -d $d ] && rm -rf $d
         done
     }
 
     # run primary tasks
-    STATE_GMSF disable && DEL_GMSF
+    STATE_GMSF disable; DEL_GMSF
 )

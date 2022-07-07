@@ -9,8 +9,7 @@
 # │ https://github.com/MrCarb0n/killgmsfont │
 # ╰─────────────────────────────────────────╯
 
-# set -xv
-DEBUG=true
+set -x
 
 ui_print ' _____ _ _ _ _____ _____ _____ _____         _   '
 ui_print '|  |  |_| | |   __|     |   __|   __|___ ___| |_ '
@@ -21,37 +20,51 @@ ui_print ''
 ui_print '- Installing'
 ui_print ''
 
-# disable GMS' font service
+# check GMS's components state
 STATE_GMSF() {
-    ui_print '- Disabling components'
-    local PM="$(which pm)"
-    local GMSF="com.google.android.gms/com.google.android.gms.fonts"
+    ui_print '- Checking Components'
 
-    for u in $(ls /data/user); do
-        $PM $@ --user $u "$GMSF.update.UpdateSchedulerService" |
-            awk -F':' '{gsub(/ /,"");print $2}' |
-            while IFS= read -r STATE; do
-                ui_print "  Service: $STATE"
-            done
+    local GMS="com.google.android.gms"
+    local GMFP="$GMS.fonts.provider.FontsProvider"
+    local GMFS="$GMS.fonts.update.UpdateSchedulerService"
 
-        $PM $@ --user $u "$GMSF.provider.FontsProvider" |
-            awk -F':' '{gsub(/ /,"");print $2}' |
-            while IFS= read -r STATE; do
-                ui_print "  Provider: $STATE"
-            done
+    local DCL="disabledComponents:"
+    local ECL="enabledComponents:"
+    local HSP="Hidden[[:space:]]system[[:space:]]packages:"
+
+    local DATA="dumpsys package $GMS"
+
+    CHECK() { $DATA | sed -n "/$1/,/$2/{/$3/p}" | xargs; }
+
+    for g in $GMFP $GMFS; do
+        case $g in
+            $(CHECK $DCL $ECL $g))
+                case $g in
+                    $GMFP) ui_print "  Provider: Disabled" ;;
+                    $GMFS) ui_print "  Service: Disabled" ;;
+                esac
+                ;;
+            $(CHECK $ECL $HSP $g))
+                case $g in
+                    $GMFP) ui_print "  Provider: Enabled" ;;
+                    $GMFS) ui_print "  Service: Enabled" ;;
+                esac
+                ;;
+        esac
     done
     ui_print ''
 }
 
-# delete GMS' generated fonts
-DEL_GMSF() {
-    ui_print '- Deleting GMS Font'
+# Find GMS' generated fonts
+FIND_GMSF() {
+    ui_print '- Finding GMS Fonts'
     local GMSFD=com.google.android.gms/files/fonts
 
-    for d in /data/data /data/user/*; do
-        [ -d $d/$GMSFD ] &&
-            ui_print "  Found: $d/$GMSFD" &&
-            rm -rf $d/$GMSFD
+    for d in /data/fonts \
+        /data/data/$GMSFD \
+        /data/user/*/$GMSFD; do
+        [ -d $d ] &&
+            ui_print "  Found: $d"
     done
     ui_print '  Done'
     ui_print ''
@@ -63,7 +76,11 @@ CLEANUP() {
     find $MODPATH/* -maxdepth 0 \
         ! -name module.prop \
         ! -name service.sh \
-        ! -name uninstall.sh -delete
+        ! -name uninstall.sh -exec basename {} \; |
+        while IFS= read -r CLEAN; do
+            rm -f $MODPATH/$CLEAN
+            ui_print "  Removed: $CLEAN"
+        done
     ui_print '  Done'
     ui_print ''
 }
@@ -71,10 +88,15 @@ CLEANUP() {
 # settings permissions
 SET_PERM() {
     ui_print '- Setting permissions'
-    set_perm_recursive $MODPATH 0 0 0755 0777 u:object_r:system_file:s0
+    find $MODPATH/* -maxdepth 0 \
+        -exec basename {} \; |
+        while IFS= read -r PERM; do
+            set_perm $MODPATH/$PERM 0 0 0777 u:object_r:system_file:s0
+            ui_print "  Granted: $PERM"
+        done
     ui_print '  Done'
     ui_print ''
 }
 
 # run functions
-STATE_GMSF disable && DEL_GMSF && CLEANUP && SET_PERM
+STATE_GMSF; FIND_GMSF; CLEANUP; SET_PERM
