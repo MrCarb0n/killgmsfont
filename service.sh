@@ -1,6 +1,6 @@
 #!/system/bin/sh
 
-(   
+(
     # ╭─────────────────────────────────────────╮
     # │    Kill GMS Font Module. | @MrCarb0n    │
     # ├─────────────────────────────────────────┤
@@ -32,8 +32,10 @@
     DEL_GMSF() {
         local GMSFD=com.google.android.gms/files/fonts
 
-        for d in /data/data /data/user/*; do
-            [ -d $D/$GMSFD ] && rm -rf $d/$GMSFD
+        for d in /data/fonts \
+            /data/data/$GMSFD \
+            /data/user/*/$GMSFD; do
+            [ -d $d ] && rm -rf $d
         done
     }
 
