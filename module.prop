@@ -1,7 +1,7 @@
 id=killgmsfont
 name=Kill GMS Font
-version=v1.0
-versionCode=10
+version=v1.5
+versionCode=15
 author=MrCarb0n
 description=Revoke GMS's Font Provider service to allow GApps and other apps to use system or custom installed fonts.
 updateJson=https://raw.githubusercontent.com/MrCarb0n/killgmsfont/master/update.json
