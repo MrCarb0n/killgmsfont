@@ -1,3 +1,7 @@
+## Release v1.6
+- **KillGMSFont Module v1.6**
+  - Fixed typographical error :P
+
 ## Release v1.5
 - **KillGMSFont Module v1.5**
   - Fixed typos in README.md

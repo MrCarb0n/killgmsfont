@@ -51,7 +51,7 @@ installed fonts.
 [2]: https://developer.android.com/guide/topics/ui/look-and-feel/downloadable-fonts
 [3]: https://play.google.com/store/apps/dev?id=5700313618786177705
 [4]: https://github.com/MrCarb0n/killgmsfont
-[5]: https://github.com/MrCarb0n/killgmsfont/releases/download/v1.5/KillGMSFont_v1.5.zip
+[5]: https://github.com/MrCarb0n/killgmsfont/releases/download/v1.6/killgmsfont_v1.6.zip
 [6]: /extension/killgmsfont.zip?raw=true
 [7]: https://github.com/topjohnwu/Magisk/releases
 [8]: https://gitlab.com/nongthaihoang/oh_my_font/-/raw/master/releases/OMF.zip

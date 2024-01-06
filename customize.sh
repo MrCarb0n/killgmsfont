@@ -62,7 +62,6 @@ for d in /data/fonts /data/data/$GMSFD /data/user/*/$GMSFD; do
     [ -d $d ] && ui_print "  Found: $d"
 done
 
-ui_print '  Done'
 ui_print ''
 
 # Generating supporting files
@@ -124,7 +123,6 @@ done
 EOF
 ui_print "  Generated: service.sh"
 
-ui_print '  Done'
 ui_print ''
 
 # Remove unnecessary files and print only the filenames
@@ -139,7 +137,6 @@ for file in $MODPATH/*; do
     }
 done
 
-ui_print '  Done'
 ui_print ''
 
 # Set permissions individually for each file and print only the filenames
@@ -152,5 +149,4 @@ for PERM in $MODPATH/*; do
     fi
 done
 
-ui_print '  Done'
 ui_print ''
