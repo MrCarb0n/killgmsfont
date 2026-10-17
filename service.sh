@@ -13,50 +13,15 @@
 # ╰────────────────────────────────────────────╯
 
 # set -x
-#
-# Behaviour here is intentionally identical to the payloads previously
-# inlined in customize.sh and extension/dev_killgmsfont.sh. Queued fixes
-# (scope the /data walk, stop wiping /data/fonts, cover every user profile)
-# are separate changes so this extraction stays reviewable.
 
-while true; do
-    (
-        # Wait until proper boot up
-        until [ "$(resetprop sys.boot_completed)" = "1" -a -d "/data" ]; do
-            sleep 1
-        done
+MODDIR=${0%/*}
 
-        # Disable GMS' font service
-        # shortcut: pm enable/disable reject --user all, so profiles are
-        # enumerated instead. AOSP passes USER_NULL to runSetEnabledSetting,
-        # so handleIncomingUser throws on -1. Verified on Android 15.
-        STATE_GMSF() {
-            GMSF="com.google.android.gms/com.google.android.gms.fonts"
-
-            UPS=$(ls -d /data/user/* 2>/dev/null)  # Dynamically get user profiles
-
-            for UP in $UPS; do
-                pm "$1" --user "${UP##*/}" "$GMSF.update.UpdateSchedulerService"
-                pm "$1" --user "${UP##*/}" "$GMSF.provider.FontsProvider"
-            done
-        }
-
-        # Delete GMS' generated fonts
-        DEL_GMSF() {
-            local GMSFD=com.google.android.gms/files/fonts
-
-            # /data/data has been a symlink to /data/user/<id> since 4.4, so
-            # one glob covers every profile without walking all of /data.
-            for d in /data/user/*/$GMSFD; do
-                rm -rf "$d"
-            done
-        }
-
-        # Run primary tasks
-        STATE_GMSF disable >/dev/null 2>&1
-        DEL_GMSF
-    )
-
-    # Sleep for 3 hours before running again
-    sleep 10800 # 3 hours in seconds
+# Wait until proper boot up. service.sh is a non-blocking stage on both
+# Magisk and KernelSU, so this wait cannot stall the boot.
+until [ "$(resetprop sys.boot_completed)" = "1" -a -d "/data" ]; do
+    sleep 1
 done
+
+# The work itself lives in action.sh so the Action button and the boot path
+# can never drift apart.
+. "$MODDIR/action.sh" disable >/dev/null 2>&1

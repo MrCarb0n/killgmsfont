@@ -24,7 +24,7 @@ zip -9 -j extension/$EXTZ extension/89_killgmsfont.sh service.sh
 [ -f ../$OUTF ] && rm -v ../$OUTF
 
 # Package only the files Magisk needs, so nothing new can leak into a release
-zip -r9 ../$OUTF module.prop customize.sh uninstall.sh service.sh META-INF
+zip -r9 ../$OUTF module.prop customize.sh uninstall.sh service.sh action.sh META-INF
 
 # Sign the created zip file in place
 zipsignerust sign --inplace ../$OUTF
