@@ -66,7 +66,7 @@ present a derivative as the official Kill GMS Font.
 [3]: https://play.google.com/store/apps/dev?id=5700313618786177705
 [4]: https://github.com/MrCarb0n/killgmsfont
 [5]: https://github.com/MrCarb0n/killgmsfont/releases/download/v1.6/killgmsfont_v1.6.zip
-[6]: /extension/killgmsfont.zip?raw=true
+[6]: https://github.com/MrCarb0n/killgmsfont/releases/latest/download/killgmsfont.zip
 [7]: https://github.com/topjohnwu/Magisk/releases
 [8]: https://gitlab.com/nongthaihoang/oh_my_font/-/raw/master/releases/OMF.zip
 [9]: https://gitlab.com/nongthaihoang/omftemplate
