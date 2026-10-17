@@ -27,15 +27,15 @@ while true; do
         done
 
         # Disable GMS' font service
+        # shortcut: pm enable/disable reject --user all, so profiles are
+        # enumerated instead. AOSP passes USER_NULL to runSetEnabledSetting,
+        # so handleIncomingUser throws on -1. Verified on Android 15.
         STATE_GMSF() {
-            PM="$(command -v pm)"
             GMSF="com.google.android.gms/com.google.android.gms.fonts"
 
-            UPS=$(ls -d /data/user/*)  # Dynamically get user profiles
-
-            for UP in $UPS; do
-                "$PM" "$@" --user "${UP##*/}" "$GMSF.update.UpdateSchedulerService"
-                "$PM" "$@" --user "${UP##*/}" "$GMSF.provider.FontsProvider"
+            for UP in $(ls -d /data/user/* 2>/dev/null); do
+                pm "$1" --user "${UP##*/}" "$GMSF.update.UpdateSchedulerService"
+                pm "$1" --user "${UP##*/}" "$GMSF.provider.FontsProvider"
             done
         }
 
@@ -43,12 +43,11 @@ while true; do
         DEL_GMSF() {
             local GMSFD=com.google.android.gms/files/fonts
 
-            [ -d /data/fonts ] && rm -r /data/fonts
-
-            find /data \
-                -type d \
-                -path "*$GMSFD*" \
-                -exec test -d {} \; -exec rm -r {} \;
+            # /data/data has been a symlink to /data/user/<id> since 4.4, so
+            # one glob covers every profile without walking all of /data.
+            for d in /data/user/*/$GMSFD; do
+                rm -rf "$d"
+            done
         }
 
         # Run primary tasks
