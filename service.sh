@@ -33,7 +33,9 @@ while true; do
         STATE_GMSF() {
             GMSF="com.google.android.gms/com.google.android.gms.fonts"
 
-            for UP in $(ls -d /data/user/* 2>/dev/null); do
+            UPS=$(ls -d /data/user/* 2>/dev/null)  # Dynamically get user profiles
+
+            for UP in $UPS; do
                 pm "$1" --user "${UP##*/}" "$GMSF.update.UpdateSchedulerService"
                 pm "$1" --user "${UP##*/}" "$GMSF.provider.FontsProvider"
             done
