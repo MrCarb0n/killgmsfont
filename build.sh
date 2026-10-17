@@ -4,11 +4,11 @@
 # build script: killgmsfont
 
 set -x
+set -e
 
 VER="_$(sed -n 's/^version=\(.*\)/\1/p' module.prop)"
 EXTZ="killgmsfont.zip"
 OUTF="killgmsfont$VER.zip"
-OUTZ="killgmsfont$VER-signed.zip"
 
 # Copy and modify extension script
 cp extension/dev_killgmsfont.sh extension/89_killgmsfont.sh
@@ -16,17 +16,15 @@ cp extension/dev_killgmsfont.sh extension/89_killgmsfont.sh
 # Remove existing signed file
 [ -f extension/$EXTZ ] && rm -v extension/$EXTZ
 
-# Create and sign the zip file
-zip -m9 -j extension/$EXTZ extension/89_killgmsfont.sh
+# Package the extension script alongside the shared service script.
+# No -m here: it would delete the sources, including the tracked service.sh.
+zip -9 -j extension/$EXTZ extension/89_killgmsfont.sh service.sh
 
 # Remove existing signed file from the parent directory
 [ -f ../$OUTF ] && rm -v ../$OUTF
 
-# Create a zip file excluding the extension directory and the build script
-zip -r9 ../$OUTF * -x "extension/*" "build.sh"
+# Package only the files Magisk needs, so nothing new can leak into a release
+zip -r9 ../$OUTF module.prop customize.sh uninstall.sh service.sh META-INF
 
-# Sign the created zip file
-zipsigner ~/x509.pem ~/pk8 ../$OUTF ../$OUTZ
-
-# Rename the signed file back to the original filename
-[ -f ../$OUTF ] && rm ../$OUTF; mv ../$OUTZ ../$OUTF
+# Sign the created zip file in place
+zipsignerust sign --inplace ../$OUTF
