@@ -1,0 +1,33 @@
+# Kill GMS Font — repository ignore rules
+#
+# Note: extension/killgmsfont.zip is intentionally COMMITTED (README serves it
+# via ?raw=true). Do not add a blanket *.zip rule — the root-only /*.zip rule
+# below exists precisely to avoid ignoring it.
+
+# ── AI / agent tooling (all generated) ────────────────────────────
+# Regenerate the GitNexus index with:  npx gitnexus@latest analyze
+.gitnexus/
+.claude/
+AGENTS.md
+CLAUDE.md
+CLAUDE.local.md
+GEMINI.md
+.cursor/
+.aider.conf.yml
+.github/copilot-instructions.md
+
+# ── Build artifacts ──────────────────────────────────────────────
+# build.sh stages this copy of the extension script, then zips it
+extension/89_killgmsfont.sh
+# Release zips are written to the parent directory by build.sh;
+# this catches any that get zipped in-tree. Root-only on purpose.
+/*.zip
+
+# ── Editor / OS ──────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.idea/
+.vscode/

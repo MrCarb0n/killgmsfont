@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Copyright (c) 2022-present MrCarb0n <https://github.com/MrCarb0n/killgmsfont>
+#
 # ╭────────────────────────────────────────────╮
 # │     Kill GMS Font Module. | @MrCarb0n      │
 # ├────────────────────────────────────────────┤
@@ -15,6 +18,9 @@ ui_print '  KillGMSFont v2023.12.31'
 [ ! -d $OMFDIR/service.d ] && mkdir -p $OMFDIR/service.d
 
 cat << 'EOF' > $OMFDIR/service.d/svc_killgmsfont.sh
+# SPDX-License-Identifier: GPL-3.0-only
+# Copyright (c) 2022-present MrCarb0n <https://github.com/MrCarb0n/killgmsfont>
+#
 # ╭────────────────────────────────────────────╮
 # │     Kill GMS Font Module. | @MrCarb0n      │
 # ├────────────────────────────────────────────┤

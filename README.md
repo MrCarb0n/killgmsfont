@@ -43,6 +43,20 @@ installed fonts.
 ### Credits to
 - [OMF Community][10] for inspiration
 
+### Derivative works
+This project is licensed under **GPL-3.0-only**. See [NOTICE](NOTICE) for the
+full attribution requirements.
+
+If you copy, modify or redistribute any part of it, you must keep the SPDX
+identifier and copyright notice in every derived file, state that you changed
+it, license your derivative under GPL-3.0, and link back to
+<https://github.com/MrCarb0n/killgmsfont> crediting MrCarb0n.
+
+Under GPL-3.0 §10, removing that notice automatically terminates the license
+for that copy. Note that "Kill GMS Font" and "MrCarb0n" are **not** covered by
+the GPL — the licence grants rights to the source code only, not permission to
+present a derivative as the official Kill GMS Font.
+
 ### Partner projects
 - [Oh My Font!][11]
 - [Magisk Flashable Font Module][12]

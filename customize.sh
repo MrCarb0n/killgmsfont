@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Copyright (c) 2022-present MrCarb0n <https://github.com/MrCarb0n/killgmsfont>
+#
 # ╭─────────────────────────────────────────╮
 # │    Kill GMS Font Module. | @MrCarb0n    │
 # ├─────────────────────────────────────────┤
@@ -68,6 +71,9 @@ ui_print ''
 ui_print '- Generating Supporting Files'
 
 cat << 'EOF' > $MODPATH/service.sh
+# SPDX-License-Identifier: GPL-3.0-only
+# Copyright (c) 2022-present MrCarb0n <https://github.com/MrCarb0n/killgmsfont>
+#
 # ╭────────────────────────────────────────────╮
 # │     Kill GMS Font Module. | @MrCarb0n      │
 # ├────────────────────────────────────────────┤

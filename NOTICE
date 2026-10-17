@@ -1,0 +1,46 @@
+Kill GMS Font — Attribution Notice
+==================================
+
+Copyright (c) 2022-present MrCarb0n
+Upstream source: https://github.com/MrCarb0n/killgmsfont
+SPDX-License-Identifier: GPL-3.0-only
+Full license text: LICENSE
+
+Scope
+-----
+This notice applies to every file in this repository, and to every file this
+project generates at install time — including `service.sh` (Magisk) and
+`svc_killgmsfont.sh` (OhMyFont), which are written out by the installers and
+therefore carry this notice inside the installed module.
+
+Excluded from modification:
+  META-INF/com/google/android/update-binary — vendored verbatim from
+  https://github.com/topjohnwu/Magisk/blob/master/scripts/module_installer.sh
+  (Apache-2.0, (c) topjohnwu). Do not add project headers to it; keep it
+  byte-identical to upstream so it can be diffed against it.
+
+Conditions for copying, modification or redistribution
+------------------------------------------------------
+If you copy, modify, or redistribute this software, you must:
+
+  1. Keep the SPDX identifier, the copyright line, and this notice intact in
+     every file that derives from this work. (GPL-3.0 sections 4(a), 5(a))
+  2. State that you changed the files. (GPL-3.0 section 5(a))
+  3. License the entire derivative under GPL-3.0. (GPL-3.0 section 5(c))
+  4. Link to the upstream source above in your documentation, and credit
+     MrCarb0n as the original author of Kill GMS Font.
+
+Consequences of removing this notice
+------------------------------------
+The copyright and license notices are conditions of the license grant, not
+courtesy requests. Under GPL-3.0 section 10, a violation automatically
+terminates the license for that copy. The copy then reverts to default
+copyright, and further use becomes unauthorised reproduction of copyrighted
+work.
+
+Trademarks
+---------
+"Kill GMS Font" and "MrCarb0n" are not licensed by the GPL and are not covered
+by it. The GPL grants rights to the source code only. It does not grant the
+right to present a derivative as the official Kill GMS Font, nor to use
+MrCarb0n's name as though it authored the derivative. Those are separate rights.

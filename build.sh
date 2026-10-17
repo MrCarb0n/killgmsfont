@@ -1,4 +1,6 @@
 #!/system/bin/sh
+# SPDX-License-Identifier: GPL-3.0-only
+# Copyright (c) 2022-present MrCarb0n <https://github.com/MrCarb0n/killgmsfont>
 # build script: killgmsfont
 
 set -x
