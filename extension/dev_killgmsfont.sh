@@ -15,8 +15,9 @@
 ui_print '  KillGMSFont v2023.12.31'
 
 # Install service script: svc_killgmsfont.sh
-SRCDIR="${0%/*}"        # $0 may be a bare filename when OMF invokes it
-[ "$SRCDIR" = "$0" ] && SRCDIR="."
+# KernelSU runs module scripts with cwd = the module dir, and Magisk's
+# documented convention is MODDIR=${0%/*}. Both give the right dir.
+SRCDIR=${0%/*}
 
 [ ! -d $OMFDIR/service.d ] && mkdir -p $OMFDIR/service.d
 cp "$SRCDIR/service.sh" $OMFDIR/service.d/svc_killgmsfont.sh
