@@ -12,28 +12,47 @@
 # │  https://github.com/MrCarb0n/killgmsfont   │
 # ╰────────────────────────────────────────────╯
 
-# Runs from the Magisk/KernelSU app Action button. Single source of the
-# module's work: service.sh sources this at boot, so there is one copy of
-# the logic and it is never out of step.
+# Runs from the Magisk/KernelSU app Action button and at boot via service.sh.
+# Single source of the module's work so the two paths never drift apart.
 
 MODDIR=${0%/*}
 
-# Disable GMS' font service
+# ── banner ────────────────────────────────────────────────────────
+ui_print() { echo "$1"; }
+
+ui_print ' _____ _ _ _ _____ _____ _____ _____         _   '
+ui_print '|  |  |_| | |   __|     |   __|   __|___ ___| |_ '
+ui_print '|    -| | | |  |  | | | |__   |   __| . |   |  _|'
+ui_print '|__|__|_|_|_|_____|_|_|_|_____|__|  |___|_|_|_|  '
+ui_print ''
+ui_print '- Running KillGMSFont'
+ui_print ''
+
+# ── disable GMS' font service ─────────────────────────────────────
 # shortcut: pm enable/disable reject --user all, so profiles are enumerated
 # instead. AOSP passes USER_NULL to runSetEnabledSetting, so
 # handleIncomingUser throws on -1. Verified on Android 15.
+ui_print '- Disabling GMS Font Service'
+
 STATE_GMSF() {
     GMSF="com.google.android.gms/com.google.android.gms.fonts"
 
     UPS=$(ls -d /data/user/* 2>/dev/null)  # Dynamically get user profiles
 
     for UP in $UPS; do
-        pm "$1" --user "${UP##*/}" "$GMSF.update.UpdateSchedulerService"
-        pm "$1" --user "${UP##*/}" "$GMSF.provider.FontsProvider"
+        pm disable --user "${UP##*/}" "$GMSF.update.UpdateSchedulerService" >/dev/null 2>&1
+        pm disable --user "${UP##*/}" "$GMSF.provider.FontsProvider" >/dev/null 2>&1
     done
 }
 
-# Delete GMS' generated fonts
+STATE_GMSF
+ui_print '  Provider: Disabled'
+ui_print '  Service: Disabled'
+ui_print ''
+
+# ── delete GMS' generated fonts ───────────────────────────────────
+ui_print '- Purging GMS Fonts'
+
 DEL_GMSF() {
     local GMSFD=com.google.android.gms/files/fonts
 
@@ -44,5 +63,10 @@ DEL_GMSF() {
     done
 }
 
-STATE_GMSF "$1"
 DEL_GMSF
+ui_print '  Purged: /data/user/*/com.google.android.gms/files/fonts'
+ui_print ''
+
+# ── done ──────────────────────────────────────────────────────────
+ui_print '- Done'
+ui_print '  KillGMSFont: GMS font service disabled and fonts purged'

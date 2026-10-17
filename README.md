@@ -1,75 +1,62 @@
+# Kill GMS Font
 
-<!---
- ╭─────────────────────────────────────────╮
- │    Kill GMS Font Module. | @MrCarb0n    │
- ├─────────────────────────────────────────┤
- │   Give proper credit before doing any   │
- │      distribution or modification.      │
- │        All files licensed under         │
- │     GNU General Public License v3.0     │
- ├─────────────────────────────────────────┤
- │ https://github.com/MrCarb0n/killgmsfont │
- ╰─────────────────────────────────────────╯
--->
+Google Play Services includes an internal Font Provider service that supplies
+downloadable fonts to Google apps and others. Kill GMS Font disables that
+service at boot so those apps fall back to your system or custom fonts.
 
-# Kill GMS Font :skull:
+Apps that bundle their own fonts are unaffected.
 
-[Google Mobile Services][1] a.k.a GMS has an internal [Font API Service][2] that provides
-fonts for [Google Apps][3] and others too. Here, [KillGMSFont][4] revokes GMS's font
-service during boot time to ensure [Google Apps][3] rely on system-provided or custom
-installed fonts.
+## Variants
 
-> *Many app interfaces rely on in-built shipped custom fonts; they won't be affected
-> by KillGMSFont. Instead, ask the app developer to use [GMS's Font Provider][2] service or
-> system font.*
+Kill GMS Font ships in two forms:
 
-### Download
+- **Magisk module** — universal, works on any Magisk or KernelSU setup with no
+  font mod required.
+- **OhMyFont extension** — for use alongside OhMyFont or OMF-template modules.
 
-> *[KillGMSFont][4] comes in two variants: the first is a universal Magisk module,
-> fitted without any font mod/tweak, and the second is an [OMF][10] extension. Download your
-> desired variant below.*
+## Download
 
-- [Magisk Module][5]
-> *Just download and flash through the Magisk app as a regular installation.*
-- [OMF Extension][6]
-> *Extract the zip to the `OhMyFont` folder in internal storage before installing OMF or OFM template
-> based modules.*
+- [Magisk module](https://github.com/MrCarb0n/killgmsfont/releases/download/v1.6/killgmsfont_v1.6.zip)
+- [OhMyFont extension](https://github.com/MrCarb0n/killgmsfont/releases/latest/download/killgmsfont.zip)
 
-### Requirements
-- [Magisk v20.4+][7]
-- [OhMyFont v2022.07.03+][8]
-- [OMF Template v2022.07.07+][9]
+## Requirements
 
-### Credits to
-- [OMF Community][10] for inspiration
+- Magisk v20.4+ or KernelSU
+- Android 9.0+
+- OhMyFont v2022.07.03+ (extension variant only)
 
-### Derivative works
-This project is licensed under **GPL-3.0-only**. See [NOTICE](NOTICE) for the
-full attribution requirements.
+## How it works
 
-If you copy, modify or redistribute any part of it, you must keep the SPDX
-identifier and copyright notice in every derived file, state that you changed
-it, license your derivative under GPL-3.0, and link back to
-<https://github.com/MrCarb0n/killgmsfont> crediting MrCarb0n.
+At boot, the module disables two GMS components for every user profile:
 
-Under GPL-3.0 §10, removing that notice automatically terminates the license
-for that copy. Note that "Kill GMS Font" and "MrCarb0n" are **not** covered by
-the GPL — the licence grants rights to the source code only, not permission to
-present a derivative as the official Kill GMS Font.
+- `com.google.android.gms.fonts.provider.FontsProvider`
+- `com.google.android.gms.fonts.update.UpdateSchedulerService`
 
-### Partner projects
-- [Oh My Font!][11]
-- [Magisk Flashable Font Module][12]
+It then removes the font cache GMS stores under
+`/data/user/*/com.google.android.gms/files/fonts`.
 
-[1]: https://www.android.com/gms
-[2]: https://developer.android.com/guide/topics/ui/look-and-feel/downloadable-fonts
-[3]: https://play.google.com/store/apps/dev?id=5700313618786177705
-[4]: https://github.com/MrCarb0n/killgmsfont
-[5]: https://github.com/MrCarb0n/killgmsfont/releases/download/v1.6/killgmsfont_v1.6.zip
-[6]: https://github.com/MrCarb0n/killgmsfont/releases/latest/download/killgmsfont.zip
-[7]: https://github.com/topjohnwu/Magisk/releases
-[8]: https://gitlab.com/nongthaihoang/oh_my_font/-/raw/master/releases/OMF.zip
-[9]: https://gitlab.com/nongthaihoang/omftemplate
-[10]: https://t.me/ohmyfont
-[11]: https://gitlab.com/nongthaihoang/oh_my_font
-[12]: https://t.me/MFFMMain
+The module runs once and exits. It does not touch `/data/fonts` (Android's
+system font directory) and does not run in a blocking boot stage.
+
+## Manual re-run
+
+The module registers an Action button in the Magisk or KernelSU app. Tapping it
+re-runs the disable and cache purge without rebooting — useful after a GMS
+update.
+
+## Uninstall
+
+Removing the module runs `uninstall.sh`, which re-enables both components and
+restores stock state.
+
+## Credits
+
+- [Oh My Font!](https://gitlab.com/nongthaihoang/oh_my_font) for inspiration
+- [Magisk](https://github.com/topjohnwu/Magisk) for the module framework
+- [KernelSU](https://github.com/tiann/KernelSU) for root support
+
+## License
+
+GPL-3.0-only. See [LICENSE](LICENSE) and [NOTICE](NOTICE) for attribution
+requirements. Derivative works must retain the copyright notice, state changes,
+and link back to this repository.

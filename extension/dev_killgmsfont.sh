@@ -15,9 +15,10 @@
 ui_print '  KillGMSFont v2023.12.31'
 
 # Install service script: svc_killgmsfont.sh
-# KernelSU runs module scripts with cwd = the module dir, and Magisk's
-# documented convention is MODDIR=${0%/*}. Both give the right dir.
-SRCDIR=${0%/*}
+# OMF sources extensions via `. $OMFDIR/$i`, so $0 here is OMF's own
+# customize.sh, not this file. The extension and service.sh both live in
+# $OMFDIR, so resolve the source relative to that.
+SRCDIR=$OMFDIR
 
 [ ! -d $OMFDIR/service.d ] && mkdir -p $OMFDIR/service.d
 cp "$SRCDIR/service.sh" $OMFDIR/service.d/svc_killgmsfont.sh

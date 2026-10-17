@@ -24,4 +24,4 @@ done
 
 # The work itself lives in action.sh so the Action button and the boot path
 # can never drift apart.
-. "$MODDIR/action.sh" disable >/dev/null 2>&1
+. "$MODDIR/action.sh" >/dev/null 2>&1
