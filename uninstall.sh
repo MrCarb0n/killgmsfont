@@ -34,7 +34,7 @@ STATE_GMSF() {
             OUT=$(pm enable --user "${UP##*/}" "$GMSF.$COMP" 2>&1)
             case "$OUT" in
                 *"new state: enabled") GMSF_OK=$((GMSF_OK + 1)) ;;
-                *) GMSF_FAIL=$((GMSF_FAIL + 1)); echo "$OUT" >&2 ;;
+                *) GMSF_FAIL=$((GMSF_FAIL + 1)); echo "$OUT" ;;
             esac
         done
     done

@@ -23,6 +23,6 @@ until [ "$(resetprop sys.boot_completed)" = "1" -a -d "/data" ]; do
     sleep 1
 done
 
-# Only the banner goes to stdout; failures are reported on stderr so they
-# survive instead of being swallowed.
-. "$MODDIR/action.sh" >/dev/null
+# The boot path has no console, so the report is discarded here. It is still
+# there for the Action button, which runs action.sh directly.
+. "$MODDIR/action.sh" >/dev/null 2>&1

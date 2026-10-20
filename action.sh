@@ -50,7 +50,7 @@ STATE_GMSF() {
             OUT=$(pm disable --user "${UP##*/}" "$GMSF.$COMP" 2>&1)
             case "$OUT" in
                 *"new state: disabled") GMSF_OK=$((GMSF_OK + 1)) ;;
-                *) GMSF_FAIL=$((GMSF_FAIL + 1)); echo "  $OUT" >&2 ;;
+                *) GMSF_FAIL=$((GMSF_FAIL + 1)); ui_print "  $OUT" ;;
             esac
         done
     done
@@ -82,7 +82,7 @@ DEL_GMSF() {
         rm -rf "$d"
         if [ -d "$d" ]; then
             PURGE_FAIL=$((PURGE_FAIL + 1))
-            echo "  Failed to purge $d" >&2
+            ui_print "  Failed to purge $d"
         else
             PURGED=$((PURGED + 1))
         fi

@@ -63,7 +63,9 @@ ui_print '- Finding GMS Fonts'
 
 GMSFD=com.google.android.gms/files/fonts
 
-for d in /data/fonts /data/data/$GMSFD /data/user/*/$GMSFD; do
+# Only the paths action.sh actually purges. /data/data is a symlink to
+# /data/user/0, and /data/fonts is the system font dir, which we leave alone.
+for d in /data/user/*/$GMSFD; do
     [ -d $d ] && ui_print "  Found: $d"
 done
 
