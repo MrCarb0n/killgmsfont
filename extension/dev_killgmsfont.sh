@@ -12,16 +12,28 @@
 # ╰────────────────────────────────────────────╯
 
 # Print version
-ui_print '  KillGMSFont v2023.12.31'
+ui_print '  KillGMSFont @VERSION@'
+
+# OMF sources extensions via `. $OMFDIR/$i`, so $0 here is OMF's own
+# customize.sh, not this file. The payload therefore lives in $OMFDIR/svc,
+# which OMF's src() does not scan (it only looks one level deep).
+SRCDIR=$OMFDIR/svc
 
 # Install service script: svc_killgmsfont.sh
-# OMF sources extensions via `. $OMFDIR/$i`, so $0 here is OMF's own
-# customize.sh, not this file. The extension and service.sh both live in
-# $OMFDIR, so resolve the source relative to that.
-SRCDIR=$OMFDIR
-
+# OMF's svc() copies service.d/*.sh into its own module dir and runs them at
+# boot, and uninstall.d/*.sh when the module is removed.
 [ ! -d $OMFDIR/service.d ] && mkdir -p $OMFDIR/service.d
+[ ! -d $OMFDIR/uninstall.d ] && mkdir -p $OMFDIR/uninstall.d
+
 cp "$SRCDIR/service.sh" $OMFDIR/service.d/svc_killgmsfont.sh
+cp "$SRCDIR/uninstall.sh" $OMFDIR/uninstall.d/killgmsfont.sh
+
+# The boot worker sources "$MODDIR/action.sh", and $MODDIR is OMF's module
+# dir - the same place svc() puts the service script. So the worker has to
+# sit next to it, or the extension boots and does nothing.
+if [ -n "$MODPATH" ] && [ -d "$MODPATH" ]; then
+    cp "$SRCDIR/action.sh" "$MODPATH/action.sh"
+fi
 
 # Assign module ver
 ver killgmsf

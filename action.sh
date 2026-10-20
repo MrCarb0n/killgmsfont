@@ -15,8 +15,6 @@
 # Runs from the Magisk/KernelSU app Action button and at boot via service.sh.
 # Single source of the module's work so the two paths never drift apart.
 
-MODDIR=${0%/*}
-
 # ── banner ────────────────────────────────────────────────────────
 ui_print() { echo "$1"; }
 
@@ -28,30 +26,50 @@ ui_print ''
 ui_print '- Running KillGMSFont'
 ui_print ''
 
+GMSF="com.google.android.gms/com.google.android.gms.fonts"
+
 # ── disable GMS' font service ─────────────────────────────────────
 # shortcut: pm enable/disable reject --user all, so profiles are enumerated
 # instead. AOSP passes USER_NULL to runSetEnabledSetting, so
 # handleIncomingUser throws on -1. Verified on Android 15.
 ui_print '- Disabling GMS Font Service'
 
-STATE_GMSF() {
-    GMSF="com.google.android.gms/com.google.android.gms.fonts"
+GMSF_OK=0
+GMSF_FAIL=0
 
+STATE_GMSF() {
     UPS=$(ls -d /data/user/* 2>/dev/null)  # Dynamically get user profiles
 
     for UP in $UPS; do
-        pm disable --user "${UP##*/}" "$GMSF.update.UpdateSchedulerService" >/dev/null 2>&1
-        pm disable --user "${UP##*/}" "$GMSF.provider.FontsProvider" >/dev/null 2>&1
+        for COMP in update.UpdateSchedulerService provider.FontsProvider; do
+            # pm prints the resulting state of the component, so trust that
+            # instead of the exit code, which is 0 even when nothing changed.
+            # Anchored to the end of the output so that other states
+            # ("disabled-user") cannot pass for a plain disable.
+            OUT=$(pm disable --user "${UP##*/}" "$GMSF.$COMP" 2>&1)
+            case "$OUT" in
+                *"new state: disabled") GMSF_OK=$((GMSF_OK + 1)) ;;
+                *) GMSF_FAIL=$((GMSF_FAIL + 1)); echo "  $OUT" >&2 ;;
+            esac
+        done
     done
 }
 
 STATE_GMSF
-ui_print '  Provider: Disabled'
-ui_print '  Service: Disabled'
+
+if [ "$GMSF_OK" -gt 0 ]; then
+    ui_print "  Disabled: $GMSF_OK"
+fi
+if [ "$GMSF_FAIL" -gt 0 ]; then
+    ui_print "  Failed: $GMSF_FAIL"
+fi
 ui_print ''
 
 # ── delete GMS' generated fonts ───────────────────────────────────
 ui_print '- Purging GMS Fonts'
+
+PURGED=0
+PURGE_FAIL=0
 
 DEL_GMSF() {
     local GMSFD=com.google.android.gms/files/fonts
@@ -59,14 +77,34 @@ DEL_GMSF() {
     # /data/data has been a symlink to /data/user/<id> since 4.4, so one glob
     # covers every profile without walking all of /data.
     for d in /data/user/*/$GMSFD; do
+        [ -d "$d" ] || continue
         rm -rf "$d"
+        if [ -d "$d" ]; then
+            PURGE_FAIL=$((PURGE_FAIL + 1))
+            echo "  Failed to purge $d" >&2
+        else
+            PURGED=$((PURGED + 1))
+        fi
     done
 }
 
 DEL_GMSF
-ui_print '  Purged: /data/user/*/com.google.android.gms/files/fonts'
+
+if [ "$PURGED" -gt 0 ]; then
+    ui_print "  Purged: $PURGED"
+fi
+if [ "$PURGE_FAIL" -gt 0 ]; then
+    ui_print "  Failed: $PURGE_FAIL"
+fi
+if [ "$PURGED" -eq 0 ] && [ "$PURGE_FAIL" -eq 0 ]; then
+    ui_print '  Nothing to purge'
+fi
 ui_print ''
 
 # ── done ──────────────────────────────────────────────────────────
 ui_print '- Done'
-ui_print '  KillGMSFont: GMS font service disabled and fonts purged'
+if [ "$GMSF_FAIL" -gt 0 ] || [ "$PURGE_FAIL" -gt 0 ]; then
+    ui_print '  KillGMSFont: finished with errors, see above'
+else
+    ui_print '  KillGMSFont: GMS font service disabled and fonts purged'
+fi

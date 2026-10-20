@@ -15,5 +15,33 @@
 # Restore GMS' font service to its stock state.
 GMSF="com.google.android.gms/com.google.android.gms.fonts"
 
-pm enable --user all "$GMSF.update.UpdateSchedulerService"
-pm enable --user all "$GMSF.provider.FontsProvider"
+# shortcut: pm enable/disable reject --user all, so profiles are enumerated
+# instead. AOSP passes USER_NULL to runSetEnabledSetting, so
+# handleIncomingUser throws on -1. Verified on Android 15.
+GMSF_OK=0
+GMSF_FAIL=0
+
+STATE_GMSF() {
+    UPS=$(ls -d /data/user/* 2>/dev/null)  # Dynamically get user profiles
+
+    for UP in $UPS; do
+        for COMP in update.UpdateSchedulerService provider.FontsProvider; do
+            # pm prints the resulting state of the component, so trust that
+            # instead of the exit code, which is 0 even when nothing changed.
+            # Anchored to the end of the output so that other states
+            # ("disabled-user") cannot pass for a plain enable.
+            OUT=$(pm enable --user "${UP##*/}" "$GMSF.$COMP" 2>&1)
+            case "$OUT" in
+                *"new state: enabled") GMSF_OK=$((GMSF_OK + 1)) ;;
+                *) GMSF_FAIL=$((GMSF_FAIL + 1)); echo "$OUT" >&2 ;;
+            esac
+        done
+    done
+}
+
+STATE_GMSF
+
+echo "KillGMSFont: restored $GMSF_OK component(s)"
+if [ "$GMSF_FAIL" -gt 0 ]; then
+    echo "KillGMSFont: failed to restore $GMSF_FAIL component(s)" >&2
+fi

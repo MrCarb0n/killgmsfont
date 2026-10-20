@@ -12,7 +12,8 @@
 # │  https://github.com/MrCarb0n/killgmsfont   │
 # ╰────────────────────────────────────────────╯
 
-# set -x
+# Boot entry point. The work itself lives in action.sh so this path and the
+# Action button path cannot drift apart.
 
 MODDIR=${0%/*}
 
@@ -22,6 +23,6 @@ until [ "$(resetprop sys.boot_completed)" = "1" -a -d "/data" ]; do
     sleep 1
 done
 
-# The work itself lives in action.sh so the Action button and the boot path
-# can never drift apart.
-. "$MODDIR/action.sh" >/dev/null 2>&1
+# Only the banner goes to stdout; failures are reported on stderr so they
+# survive instead of being swallowed.
+. "$MODDIR/action.sh" >/dev/null

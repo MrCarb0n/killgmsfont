@@ -3,7 +3,7 @@
 # Release artifacts are not committed. build.sh produces them locally and
 # they are uploaded as Release assets; the README links to those.
 
-# ── AI / agent tooling (all generated) ────────────────────────────
+# ── Local tooling ─────────────────────────────────────────────────
 # Regenerate the GitNexus index with:  npx gitnexus@latest analyze
 .gitnexus/
 .claude/
@@ -16,8 +16,6 @@ GEMINI.md
 .github/copilot-instructions.md
 
 # ── Build artifacts ──────────────────────────────────────────────
-# build.sh stages this copy of the extension script, then zips it
-extension/89_killgmsfont.sh
 # Module zip is written to the parent directory, extension zip here
 *.zip
 
