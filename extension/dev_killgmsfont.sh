@@ -30,7 +30,8 @@ cp "$SRCDIR/uninstall.sh" $OMFDIR/uninstall.d/killgmsfont.sh
 
 # The boot worker sources "$MODDIR/action.sh", and $MODDIR is OMF's module
 # dir - the same place svc() puts the service script. So the worker has to
-# sit next to it, or the extension boots and does nothing.
+# sit next to it, or the extension boots and does nothing. The uninstall hook
+# needs it there too, since it restores from the same script.
 if [ -n "$MODPATH" ] && [ -d "$MODPATH" ]; then
     cp "$SRCDIR/action.sh" "$MODPATH/action.sh"
 fi

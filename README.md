@@ -16,7 +16,7 @@ Kill GMS Font ships in two forms:
 
 ## Download
 
-- [Magisk module](https://github.com/MrCarb0n/killgmsfont/releases/download/v1.6/killgmsfont_v1.6.zip)
+- [Magisk module](https://github.com/MrCarb0n/killgmsfont/releases/download/v2.0/killgmsfont_v2.0.zip)
 - [OhMyFont extension](https://github.com/MrCarb0n/killgmsfont/releases/latest/download/killgmsfont.zip)
 
 The extension is unpacked into the `OhMyFont` folder in internal storage
