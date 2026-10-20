@@ -17,7 +17,8 @@ GMSF="com.google.android.gms/com.google.android.gms.fonts"
 
 # shortcut: pm enable/disable reject --user all, so profiles are enumerated
 # instead. AOSP passes USER_NULL to runSetEnabledSetting, so
-# handleIncomingUser throws on -1. Verified on Android 15.
+# handleIncomingUser throws on -1 (A11+); on A9/A10 it is a silent no-op.
+# Verified on AOSP source for Android 9 through 17.
 GMSF_OK=0
 GMSF_FAIL=0
 
