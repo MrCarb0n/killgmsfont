@@ -19,6 +19,9 @@ Kill GMS Font ships in two forms:
 - [Magisk module](https://github.com/MrCarb0n/killgmsfont/releases/download/v1.6/killgmsfont_v1.6.zip)
 - [OhMyFont extension](https://github.com/MrCarb0n/killgmsfont/releases/latest/download/killgmsfont.zip)
 
+The extension is unpacked into the `OhMyFont` folder in internal storage
+(`/sdcard/OhMyFont`) before OMF is installed.
+
 ## Requirements
 
 - Magisk v20.4+ or KernelSU
